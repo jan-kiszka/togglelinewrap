@@ -19,7 +19,7 @@ endif
 
 PACKAGE_NAME=togglelinewrap
 
-RELEASE_TAG=$(shell git describe --match "[0-9].[0-9]*")
+RELEASE_TAG=$(shell git describe --match "[0-9].[0-9]*" --dirty)
 ARCHIVE_NAME=$(PACKAGE_NAME)-$(RELEASE_TAG).xpi
 
 PACKAGE_FILES= \
