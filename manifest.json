@@ -38,7 +38,7 @@
   "commands": {
     "toggleLineWrap": {
       "suggested_key": {
-        "default": "Alt+W"
+        "default": "Ctrl+Shift+W"
       },
       "description": "Toggle line wrapping"
     }
