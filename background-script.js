@@ -41,6 +41,7 @@ async function main() {
             messenger.tabs.query({windowId: window.id}).then(tabs => {
               toggleLineWrap(tabs[0]);
             });
+            break;
           }
         }
       });
