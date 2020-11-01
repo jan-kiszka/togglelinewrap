@@ -13,13 +13,20 @@
 
 async function toggleLineWrap(windowId)
 {
-  messenger.composeLineWrap.toggle(windowId);
-
-  let details = { text: null };
-  if (!await messenger.composeLineWrap.isEnabled(windowId)) {
-    details.text = "off";
+  let defaultWidth = await messenger.composeLineWrap.getDefaultWrapWidth(windowId);
+  if (defaultWidth === 0) {
+    return;
   }
-  messenger.composeAction.setBadgeText(details);
+
+  let width = await messenger.composeLineWrap.getEditorWrapWidth(windowId);
+  if (width > 0) {
+    width = 0;
+  } else {
+    width = defaultWidth;
+  }
+  messenger.composeLineWrap.setEditorWrapWidth(windowId, width);
+
+  messenger.composeAction.setBadgeText({text: (width === 0) ? "off" : null});
 }
 
 async function main() {

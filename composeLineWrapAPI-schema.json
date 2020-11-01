@@ -3,7 +3,22 @@
     "namespace": "composeLineWrap",
     "functions": [
       {
-        "name": "toggle",
+        "name": "setEditorWrapWidth",
+        "type": "function",
+        "async": true,
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "integer"
+          }
+        ]
+      },
+      {
+        "name": "getEditorWrapWidth",
         "type": "function",
         "async": true,
         "parameters": [
@@ -14,7 +29,7 @@
         ]
       },
       {
-        "name": "isEnabled",
+        "name": "getDefaultWrapWidth",
         "type": "function",
         "async": true,
         "parameters": [

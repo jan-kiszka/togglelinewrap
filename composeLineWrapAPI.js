@@ -20,40 +20,39 @@ function getMsgCompose(windowId)
   return window.document.defaultView.gMsgCompose;
 }
 
-function toggleLineWrap(windowId)
+function getDefaultWidth(windowId)
 {
   let gMsgCompose = getMsgCompose(windowId);
 
-  if (!gMsgCompose || gMsgCompose.composeHTML) {
-    return;
-  }
-
-  try {
-    if (gMsgCompose.editor.wrapWidth > 0) {
-      gMsgCompose.editor.wrapWidth = 0;
-    } else {
-      gMsgCompose.editor.wrapWidth = gMsgCompose.wrapLength;
-    }
-  }
-  catch (e) { }
+  return gMsgCompose.composeHTML ? 0 : gMsgCompose.wrapLength;
 }
 
-function getLineWrap(windowId)
+function setWrapWidth(windowId, value)
 {
   let gMsgCompose = getMsgCompose(windowId);
 
-  return gMsgCompose.editor.wrapWidth !== 0;
+  gMsgCompose.editor.wrapWidth = value;
+}
+
+function getWrapWidth(windowId)
+{
+  let gMsgCompose = getMsgCompose(windowId);
+
+  return gMsgCompose.editor ? gMsgCompose.editor.wrapWidth : getDefaultWidth(windowId);
 }
 
 var composeLineWrap = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     return {
       composeLineWrap: {
-        async toggle(windowId) {
-          toggleLineWrap(windowId);
+        async setEditorWrapWidth(windowId, value) {
+          setWrapWidth(windowId, value);
         },
-        async isEnabled(windowId) {
-          return getLineWrap(windowId);
+        async getEditorWrapWidth(windowId) {
+          return getWrapWidth(windowId);
+        },
+        async getDefaultWrapWidth(windowId) {
+          return getDefaultWidth(windowId);
         }
       }
     }
