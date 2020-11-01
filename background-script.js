@@ -11,22 +11,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-async function toggleLineWrap(windowId)
+async function toggleLineWrap(tab)
 {
-  let defaultWidth = await messenger.composeLineWrap.getDefaultWrapWidth(windowId);
+  let defaultWidth = await messenger.composeLineWrap.getDefaultWrapWidth(tab.windowId);
   if (defaultWidth === 0) {
     return;
   }
 
-  let width = await messenger.composeLineWrap.getEditorWrapWidth(windowId);
+  let width = await messenger.composeLineWrap.getEditorWrapWidth(tab.windowId);
   if (width > 0) {
     width = 0;
   } else {
     width = defaultWidth;
   }
-  messenger.composeLineWrap.setEditorWrapWidth(windowId, width);
+  messenger.composeLineWrap.setEditorWrapWidth(tab.windowId, width);
 
-  messenger.composeAction.setBadgeText({text: (width === 0) ? "off" : null});
+  messenger.composeAction.setBadgeText({
+    tabId: tab.id,
+    text: (width === 0) ? "off" : null
+  });
 }
 
 async function main() {
@@ -35,7 +38,9 @@ async function main() {
       messenger.windows.getAll().then(windows => {
         for (let window of windows) {
           if (window.type === "messageCompose" && window.focused === true) {
-            toggleLineWrap(window.id);
+            messenger.tabs.query({windowId: window.id}).then(tabs => {
+              toggleLineWrap(tabs[0]);
+            });
           }
         }
       });
@@ -43,7 +48,7 @@ async function main() {
   });
 
   messenger.composeAction.onClicked.addListener(tab => {
-    toggleLineWrap(tab.windowId);
+    toggleLineWrap(tab);
   });
 }
 
