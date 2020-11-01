@@ -1,0 +1,29 @@
+[
+  {
+    "namespace": "composeLineWrap",
+    "functions": [
+      {
+        "name": "toggle",
+        "type": "function",
+        "async": true,
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer"
+          }
+        ]
+      },
+      {
+        "name": "isEnabled",
+        "type": "function",
+        "async": true,
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer"
+          }
+        ]
+      }
+    ]
+  }
+]
