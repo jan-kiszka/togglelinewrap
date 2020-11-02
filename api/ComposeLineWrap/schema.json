@@ -1,6 +1,6 @@
 [
   {
-    "namespace": "composeLineWrap",
+    "namespace": "ComposeLineWrap",
     "functions": [
       {
         "name": "setEditorWrapWidth",

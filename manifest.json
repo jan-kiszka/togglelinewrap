@@ -20,18 +20,18 @@
     ]
   },
   "experiment_apis": {
-    "composeLineWrap": {
-      "schema": "composeLineWrapAPI-schema.json",
+    "ComposeLineWrap": {
+      "schema": "api/ComposeLineWrap/schema.json",
       "parent": {
         "scopes": [
           "addon_parent"
         ],
         "paths": [
           [
-            "composeLineWrap"
+            "ComposeLineWrap"
           ]
         ],
-        "script": "composeLineWrapAPI.js"
+        "script": "api/ComposeLineWrap/implementation.js"
       }
     }
   },

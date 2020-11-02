@@ -41,10 +41,10 @@ function getWrapWidth(windowId)
     return gMsgCompose.editor ? gMsgCompose.editor.wrapWidth : getDefaultWidth(windowId);
 }
 
-var composeLineWrap = class extends ExtensionCommon.ExtensionAPI {
+var ComposeLineWrap = class extends ExtensionCommon.ExtensionAPI {
     getAPI(context) {
         return {
-            composeLineWrap: {
+            ComposeLineWrap: {
                 async setEditorWrapWidth(windowId, value) {
                     setWrapWidth(windowId, value);
                 },

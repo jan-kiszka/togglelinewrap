@@ -18,7 +18,7 @@ async function updateComposeAction(tab, defaultWidth)
         return;
     }
 
-    let width = await messenger.composeLineWrap.getEditorWrapWidth(tab.windowId);
+    let width = await messenger.ComposeLineWrap.getEditorWrapWidth(tab.windowId);
     messenger.composeAction.setBadgeText({
         tabId: tab.id,
         text: (width === 0) ? "off" : ""
@@ -28,18 +28,18 @@ async function updateComposeAction(tab, defaultWidth)
 
 async function toggleLineWrap(tab)
 {
-    let defaultWidth = await messenger.composeLineWrap.getDefaultWrapWidth(tab.windowId);
+    let defaultWidth = await messenger.ComposeLineWrap.getDefaultWrapWidth(tab.windowId);
     if (defaultWidth === 0) {
         return;
     }
 
-    let width = await messenger.composeLineWrap.getEditorWrapWidth(tab.windowId);
+    let width = await messenger.ComposeLineWrap.getEditorWrapWidth(tab.windowId);
     if (width > 0) {
         width = 0;
     } else {
         width = defaultWidth;
     }
-    messenger.composeLineWrap.setEditorWrapWidth(tab.windowId, width);
+    messenger.ComposeLineWrap.setEditorWrapWidth(tab.windowId, width);
 
     updateComposeAction(tab, defaultWidth);
 }
@@ -49,7 +49,7 @@ async function updateWindow(windowId)
     let window = await messenger.windows.get(windowId);
 
     if (window.type === "messageCompose") {
-        let defaultWidth = await messenger.composeLineWrap.getDefaultWrapWidth(window.id);
+        let defaultWidth = await messenger.ComposeLineWrap.getDefaultWrapWidth(window.id);
         messenger.tabs.query({windowId: window.id}).then(tabs => {;
             updateComposeAction(tabs[0], defaultWidth);
         });
