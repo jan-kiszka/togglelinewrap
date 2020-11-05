@@ -25,6 +25,8 @@ ARCHIVE_NAME=$(PACKAGE_NAME)-$(RELEASE_TAG).xpi
 PACKAGE_FILES= \
 	background-script.js \
 	manifest.json \
+	options.html \
+	options.js \
 	api/ComposeLineWrap/ \
 	icon.png \
 	COPYING

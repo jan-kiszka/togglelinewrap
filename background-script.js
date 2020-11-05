@@ -56,9 +56,23 @@ async function updateWindow(windowId)
     }
 }
 
+async function initWindow(window)
+{
+    if (window.type === "messageCompose") {
+        let localStorage = await messenger.storage.local.get();
+        if (typeof localStorage.line_wrap !== "undefined" && !localStorage.line_wrap) {
+            messenger.ComposeLineWrap.setEditorWrapWidth(window.id, 0);
+        }
+    }
+}
+
 async function main()
 {
     messenger.composeAction.disable();
+
+    messenger.windows.onCreated.addListener(window => {
+        initWindow(window);
+    });
 
     messenger.windows.onFocusChanged.addListener(windowId => {
         if (windowId !== messenger.windows.WINDOW_ID_NONE) {
