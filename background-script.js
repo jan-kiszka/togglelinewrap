@@ -59,8 +59,8 @@ async function updateWindow(windowId)
 async function initWindow(window)
 {
     if (window.type === "messageCompose") {
-        let localStorage = await messenger.storage.local.get();
-        if (typeof localStorage.line_wrap !== "undefined" && !localStorage.line_wrap) {
+        let { line_wrap } = await messenger.storage.local.get("line_wrap");
+        if (typeof line_wrap !== "undefined" && !line_wrap) {
             messenger.ComposeLineWrap.setEditorWrapWidth(window.id, 0);
         }
     }

@@ -11,15 +11,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-function initOptions()
+async function initOptions()
 {
-    messenger.storage.local.get().then(localStorage => {
-        let line_wrap = localStorage.line_wrap;
-        if (typeof line_wrap === "undefined") {
-            line_wrap = true;
-        }
-        document.querySelector("#line-wrap").checked = line_wrap;
-    });
+    let { line_wrap } = await messenger.storage.local.get("line_wrap");
+    if (typeof line_wrap === "undefined") {
+        line_wrap = true;
+    }
+    document.querySelector("#line-wrap").checked = line_wrap;
 }
 
 function storeOptions(event)
