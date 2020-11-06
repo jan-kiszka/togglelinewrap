@@ -11,6 +11,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+var windowSet = new Set();
+
 async function updateComposeAction(tab, defaultWidth)
 {
     if (defaultWidth === 0) {
@@ -48,6 +50,13 @@ async function updateWindow(windowId)
 {
     let window = await messenger.windows.get(windowId);
 
+    if (!windowSet.has(windowId)) {
+        let { line_wrap } = await messenger.storage.local.get("line_wrap");
+        if (typeof line_wrap !== "undefined" && !line_wrap) {
+            messenger.ComposeLineWrap.setEditorWrapWidth(window.id, 0);
+        }
+        windowSet.add(windowId);
+    }
     if (window.type === "messageCompose") {
         let defaultWidth = await messenger.ComposeLineWrap.getDefaultWrapWidth(window.id);
         messenger.tabs.query({windowId: window.id}).then(tabs => {;
@@ -56,28 +65,18 @@ async function updateWindow(windowId)
     }
 }
 
-async function initWindow(window)
-{
-    if (window.type === "messageCompose") {
-        let { line_wrap } = await messenger.storage.local.get("line_wrap");
-        if (typeof line_wrap !== "undefined" && !line_wrap) {
-            messenger.ComposeLineWrap.setEditorWrapWidth(window.id, 0);
-        }
-    }
-}
-
 async function main()
 {
     messenger.composeAction.disable();
-
-    messenger.windows.onCreated.addListener(window => {
-        initWindow(window);
-    });
 
     messenger.windows.onFocusChanged.addListener(windowId => {
         if (windowId !== messenger.windows.WINDOW_ID_NONE) {
             updateWindow(windowId);
         }
+    });
+
+    messenger.windows.onRemoved.addListener(windowId => {
+       windowSet.delete(windowId);
     });
 
     messenger.commands.onCommand.addListener(name => {
