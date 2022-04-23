@@ -1,7 +1,7 @@
 /*
  * Toggle Line Wrap Thunderbird Add-On
  *
- * Copyright (c) Jan Kiszka, 2020
+ * Copyright (c) Jan Kiszka, 2020-2022
  *
  * Authors:
  *  Jan Kiszka <jan.kiszka@web.de>
@@ -50,14 +50,14 @@ async function updateWindow(windowId)
 {
     let window = await messenger.windows.get(windowId);
 
-    if (!windowSet.has(windowId)) {
-        let { line_wrap } = await messenger.storage.local.get("line_wrap");
-        if (typeof line_wrap !== "undefined" && !line_wrap) {
-            messenger.ComposeLineWrap.setEditorWrapWidth(window.id, 0);
-        }
-        windowSet.add(windowId);
-    }
     if (window.type === "messageCompose") {
+        if (!windowSet.has(windowId)) {
+            let { line_wrap } = await messenger.storage.local.get("line_wrap");
+            if (typeof line_wrap !== "undefined" && !line_wrap) {
+                messenger.ComposeLineWrap.setEditorWrapWidth(window.id, 0);
+            }
+            windowSet.add(windowId);
+        }
         let defaultWidth = await messenger.ComposeLineWrap.getDefaultWrapWidth(window.id);
         messenger.tabs.query({windowId: window.id}).then(tabs => {;
             updateComposeAction(tabs[0], defaultWidth);
