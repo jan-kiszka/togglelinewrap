@@ -3,7 +3,8 @@
   "applications": {
     "gecko": {
       "id": "togglelinewrap@kiszka.org",
-      "strict_min_version": "78.4.0"
+      "strict_min_version": "78.4.0",
+      "strict_max_version": "102.0"
     }
   },
   "name": "Toggle Line Wrap",
