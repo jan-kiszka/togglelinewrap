@@ -1,7 +1,7 @@
 /*
  * Toggle Line Wrap Thunderbird Add-On
  *
- * Copyright (c) Jan Kiszka, 2020
+ * Copyright (c) Jan Kiszka, 2020-2022
  *
  * Authors:
  *  Jan Kiszka <jan.kiszka@web.de>
@@ -14,31 +14,41 @@
 var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
-function getMsgCompose(windowId)
+async function getMsgCompose(windowId)
 {
     let window = Services.wm.getOuterWindowWithId(windowId);
-    return window.document.defaultView.gMsgCompose;
+    let gMsgCompose = window.document.defaultView.gMsgCompose;
+
+    while (gMsgCompose.editor === null) {
+        await new Promise((resolve, reject) => {
+            window.setTimeout(() => {
+                resolve();
+            }, 100);
+        });
+    }
+
+    return gMsgCompose;
 }
 
-function getDefaultWidth(windowId)
+async function getDefaultWidth(windowId)
 {
-    let gMsgCompose = getMsgCompose(windowId);
+    let gMsgCompose = await getMsgCompose(windowId);
 
     return gMsgCompose.composeHTML ? 0 : gMsgCompose.wrapLength;
 }
 
-function setWrapWidth(windowId, value)
+async function setWrapWidth(windowId, value)
 {
-    let gMsgCompose = getMsgCompose(windowId);
+    let gMsgCompose = await getMsgCompose(windowId);
 
     gMsgCompose.editor.wrapWidth = value;
 }
 
-function getWrapWidth(windowId)
+async function getWrapWidth(windowId)
 {
-    let gMsgCompose = getMsgCompose(windowId);
+    let gMsgCompose = await getMsgCompose(windowId);
 
-    return gMsgCompose.editor ? gMsgCompose.editor.wrapWidth : getDefaultWidth(windowId);
+    return gMsgCompose.editor.wrapWidth;
 }
 
 var ComposeLineWrap = class extends ExtensionCommon.ExtensionAPI {
