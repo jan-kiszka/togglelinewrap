@@ -10,7 +10,7 @@
   "name": "Toggle Line Wrap",
   "description": "Toggle line wrapping in the message composition window.",
   "author": "Jan Kiszka",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "homepage_url": "https://git.kiszka.org/togglelinewrap.git",
   "icons": {
     "64": "icon.png"
