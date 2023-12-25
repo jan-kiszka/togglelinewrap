@@ -1,7 +1,7 @@
 /*
  * Toggle Line Wrap Thunderbird Add-On
  *
- * Copyright (c) Jan Kiszka, 2020
+ * Copyright (c) Jan Kiszka, 2020-2023
  *
  * Authors:
  *  Jan Kiszka <jan.kiszka@web.de>
@@ -11,13 +11,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-async function initOptions()
+async function initBoolOption(key, defaultValue, selector)
 {
-    let { line_wrap } = await messenger.storage.local.get("line_wrap");
-    if (typeof line_wrap === "undefined") {
-        line_wrap = true;
+    let valueObj = await messenger.storage.local.get(key);
+    let value = valueObj[key];
+    if (typeof value === "undefined") {
+        value = defaultValue;
     }
-    document.querySelector("#line-wrap").checked = line_wrap;
+    document.querySelector(selector).checked = value;
+}
+
+function initOptions()
+{
+    initBoolOption("line_wrap", true, "#line-wrap");
 }
 
 function storeOptions(event)
