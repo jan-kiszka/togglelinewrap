@@ -25,18 +25,26 @@ function initOptions()
 {
     initBoolOption("line_wrap", true, "#line-wrap");
     initBoolOption("patch_detect", true, "#patch-detect");
+    initBoolOption("use_alt_w", false, "#use-alt-w");
 }
 
 function storeOptions(event)
 {
     event.preventDefault();
 
+    let use_alt_w = document.querySelector("#use-alt-w").checked;
     messenger.storage.local.set({
         line_wrap: document.querySelector("#line-wrap").checked,
-        patch_detect: document.querySelector("#patch-detect").checked
+        patch_detect: document.querySelector("#patch-detect").checked,
+        use_alt_w: use_alt_w
+    });
+    messenger.commands.update({
+        name:"toggleLineWrap",
+        shortcut: use_alt_w ? "Alt+W" : "Ctrl+Shift+W"
     });
 }
 
 document.addEventListener("DOMContentLoaded", initOptions);
 document.querySelector("#line-wrap").addEventListener("change", storeOptions);
 document.querySelector("#patch-detect").addEventListener("change", storeOptions);
+document.querySelector("#use-alt-w").addEventListener("change", storeOptions);

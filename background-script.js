@@ -100,6 +100,11 @@ async function main()
         }
     });
 
+    let { use_alt_w } = await messenger.storage.local.get("use_alt_w");
+    if (use_alt_w) {
+        messenger.commands.update({name: "toggleLineWrap", shortcut: "Alt+W"});
+    }
+
     messenger.commands.onCommand.addListener(name => {
         if (name === "toggleLineWrap") {
             messenger.windows.getAll().then(windows => {
