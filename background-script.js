@@ -1,7 +1,7 @@
 /*
  * Toggle Line Wrap Thunderbird Add-On
  *
- * Copyright (c) Jan Kiszka, 2020-2022
+ * Copyright (c) Jan Kiszka, 2020-2023
  *
  * Authors:
  *  Jan Kiszka <jan.kiszka@web.de>
@@ -44,16 +44,49 @@ async function toggleLineWrap(tab)
     updateComposeAction(tab, defaultWidth);
 }
 
+async function isPatch(details)
+{
+    let { patch_detect } = await messenger.storage.local.get("patch_detect");
+    return (typeof patch_detect === "undefined" || patch_detect) &&
+        details.subject.search(/\[PATCH[ \]]/) >= 0;
+}
+
+async function handleBeforeSend(tab, details)
+{
+    if (!await isPatch(details)) {
+        return {cancel: false};
+    }
+
+    let width = await messenger.ComposeLineWrap.getEditorWrapWidth(tab.windowId);
+    if (width === 0) {
+        return {cancel: false};
+    }
+
+    let confirmed = await messenger.tabs.executeScript(tab.id, {code: `
+        window.confirm(
+            "WARNING: Sending a patch without line wrapping disabled.\\n" +
+            "Send anyway?");
+    `});
+    return {cancel: !confirmed[0]};
+}
+
 async function setupComposeWindows(window)
 {
+    messenger.compose.onBeforeSend.addListener(handleBeforeSend);
+
     let { line_wrap } = await messenger.storage.local.get("line_wrap");
     if (typeof line_wrap !== "undefined" && !line_wrap) {
         messenger.ComposeLineWrap.setEditorWrapWidth(window.id, 0);
     }
 
     let defaultWidth = await messenger.ComposeLineWrap.getDefaultWrapWidth(window.id);
-    messenger.tabs.query({windowId: window.id}).then(tabs => {;
-        updateComposeAction(tabs[0], defaultWidth);
+    messenger.tabs.query({windowId: window.id}).then(async tabs => {
+        let tab = tabs[0];
+        let details = await messenger.compose.getComposeDetails(tab.id);
+        if (await isPatch(details)) {
+            messenger.ComposeLineWrap.setEditorWrapWidth(tab.windowId, 0);
+        }
+        updateComposeAction(tab, defaultWidth);
     });
 }
 

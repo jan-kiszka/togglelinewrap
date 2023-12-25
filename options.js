@@ -24,6 +24,7 @@ async function initBoolOption(key, defaultValue, selector)
 function initOptions()
 {
     initBoolOption("line_wrap", true, "#line-wrap");
+    initBoolOption("patch_detect", true, "#patch-detect");
 }
 
 function storeOptions(event)
@@ -31,9 +32,11 @@ function storeOptions(event)
     event.preventDefault();
 
     messenger.storage.local.set({
-        line_wrap: document.querySelector("#line-wrap").checked
+        line_wrap: document.querySelector("#line-wrap").checked,
+        patch_detect: document.querySelector("#patch-detect").checked
     });
 }
 
 document.addEventListener("DOMContentLoaded", initOptions);
 document.querySelector("#line-wrap").addEventListener("change", storeOptions);
+document.querySelector("#patch-detect").addEventListener("change", storeOptions);

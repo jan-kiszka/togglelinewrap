@@ -11,6 +11,18 @@
         <input type="checkbox" id="line-wrap" name="line-wrap">
         <label>Enable line wrapping by default</label>
       </div>
+      <div>
+        <br>
+        <input type="checkbox" id="patch-detect" name="patch-detect">
+        <label title="When detecting a patch (subject contains '[PATCH]'), turn off line wrapping and warn if wrapping is enabled while trying to send the message.">
+          Enable patch detection
+        </label>
+        <title>
+          When detecting a patch (message subject contains "[PATCH]"), turn off
+          line wrapping and warn if wrapping is enabled while trying to send
+          the message.
+        </title>
+      </div>
     </form>
 
     <script src="options.js"></script>

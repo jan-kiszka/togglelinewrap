@@ -37,7 +37,8 @@
     }
   },
   "permissions": [
-    "storage"
+    "storage",
+    "compose"
   ],
   "options_ui": {
     "page": "options.html"
