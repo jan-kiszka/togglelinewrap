@@ -1,7 +1,7 @@
 /*
  * Toggle Line Wrap Thunderbird Add-On
  *
- * Copyright (c) Jan Kiszka, 2020-2022
+ * Copyright (c) Jan Kiszka, 2020-2023
  *
  * Authors:
  *  Jan Kiszka <jan.kiszka@web.de>
@@ -12,7 +12,6 @@
  */
 
 var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 async function getMsgCompose(windowId)
 {
