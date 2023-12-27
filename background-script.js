@@ -48,7 +48,7 @@ async function isPatch(details)
 {
     let { patch_detect } = await messenger.storage.local.get("patch_detect");
     return (typeof patch_detect === "undefined" || patch_detect) &&
-        details.subject.search(/\[PATCH[ \]]/) >= 0;
+        details.subject.search(/\[(P|.*\[P)ATCH[ \]]/) === 0;
 }
 
 async function handleBeforeSend(tab, details)
