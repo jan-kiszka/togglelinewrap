@@ -3,38 +3,22 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "togglelinewrap@kiszka.org",
-      "strict_min_version": "91.0",
-      "strict_max_version": "128.*"
+      "strict_min_version": "128.0"
     }
   },
   "name": "Toggle Line Wrap",
   "description": "Toggle line wrapping in the message composition window.",
   "author": "Jan Kiszka",
-  "version": "1.5.2",
+  "version": "1.6",
   "homepage_url": "https://git.kiszka.org/togglelinewrap.git",
   "icons": {
     "64": "icon.png"
   },
   "background": {
+    "type": "module",
     "scripts": [
-      "background-script.js"
+      "background.mjs"
     ]
-  },
-  "experiment_apis": {
-    "ComposeLineWrap": {
-      "schema": "api/ComposeLineWrap/schema.json",
-      "parent": {
-        "scopes": [
-          "addon_parent"
-        ],
-        "paths": [
-          [
-            "ComposeLineWrap"
-          ]
-        ],
-        "script": "api/ComposeLineWrap/implementation.js"
-      }
-    }
   },
   "permissions": [
     "storage",
