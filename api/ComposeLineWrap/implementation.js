@@ -11,8 +11,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
-
 async function getMsgCompose(windowId)
 {
     let window = Services.wm.getOuterWindowWithId(windowId);
