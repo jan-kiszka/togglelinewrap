@@ -4,7 +4,7 @@
     "gecko": {
       "id": "togglelinewrap@kiszka.org",
       "strict_min_version": "128.0",
-      "strict_max_version": "157.*"
+      "strict_max_version": "159.*"
     }
   },
   "name": "Toggle Line Wrap",
